@@ -12,7 +12,7 @@ endif()
 project ("Bits")
 
 # Add source to this project's executable.
-add_executable (Bits "src/main.cpp" "src/Bits.cpp")
+add_executable (Bits "src/main.cpp" "src/Bits.cpp" "src/test.cpp")
 
 target_include_directories(Bits PRIVATE
     ${CMAKE_SOURCE_DIR}/headers
@@ -20,14 +20,14 @@ target_include_directories(Bits PRIVATE
 )
 
 # Опция для указания пути к тестам
-#set(TEST_DIR "${CMAKE_SOURCE_DIR}/Tests" CACHE PATH "Path to test files")
+set(TEST_DIR "${CMAKE_SOURCE_DIR}/Tests" CACHE PATH "Path to test files")
 
 # Копируем тесты в build directory
-#file(COPY ${TEST_DIR} DESTINATION ${CMAKE_BINARY_DIR})
+file(COPY ${TEST_DIR} DESTINATION ${CMAKE_BINARY_DIR})
 
 # Передаем путь к тестам в код
-#target_compile_definitions(Bits PRIVATE 
-    #TEST_DIR="${CMAKE_BINARY_DIR}/Tests")
+target_compile_definitions(Bits PRIVATE 
+    TEST_DIR="${CMAKE_BINARY_DIR}/Tests")
 
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)

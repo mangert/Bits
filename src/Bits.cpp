@@ -1,4 +1,5 @@
-﻿#include <iostream>
+﻿#pragma once
+#include <iostream>
 #include <array>
 
 class Bits {
@@ -24,7 +25,7 @@ public: //структура для решения шахматных задач
 	};	
 
 public:
-	//временная - удалить!
+	//вспомогательная функция вывода битов как шахматной доски
 	void static print_bitboard(uint64_t number) {
 		for (uint64_t i = 8; i > 0; --i) {
 			for (uint64_t j = 0; j < 8; ++j) {
@@ -36,6 +37,7 @@ public:
 			std::cout << "\n";
 		};
 	}
+	
 	//функции подсчета битов в числе
 	//очевидная реализация подсчета числа битов в числе
 	uint64_t static count_bits_naiv(uint64_t number) {
@@ -66,7 +68,19 @@ public:
 			count += ones[m_byte];
 		};
 		return count;
-	};	
+	};
+	//оптимизированная версия
+	uint64_t static count_bits_opt_cashed(uint64_t number) {
+		// Разворачиваем цикл вручную
+		return ones[number & 0xFF] +
+			ones[(number >> 8) & 0xFF] +
+			ones[(number >> 16) & 0xFF] +
+			ones[(number >> 24) & 0xFF] +
+			ones[(number >> 32) & 0xFF] +
+			ones[(number >> 40) & 0xFF] +
+			ones[(number >> 48) & 0xFF] +
+			ones[(number >> 56) & 0xFF];
+	}
 
 	//шахматные задачки
 	//про коня
@@ -87,7 +101,7 @@ public:
 			| no_right_1 & (knight_bit << 17 | knight_bit >> 15)
 			| no_right_2 & (knight_bit << 10 | knight_bit >> 6);
 
-		result.count = count_bits_cashed(result.mask);
+		result.count = count_bits_opt_cashed(result.mask);
 		return result;
 	};
 
@@ -107,7 +121,7 @@ public:
 			(king_bit << 8 | king_bit >> 8) |
 			(no_right_edge & (king_bit << 9 | king_bit << 1 | king_bit >> 7));
 		
-		result.count = count_bits_cashed(result.mask);
+		result.count = count_bits_opt_cashed(result.mask);
 		return result;
 	};
 
@@ -128,7 +142,7 @@ public:
 		uint64_t horizontal = 0xFFULL << (row * 8);
 
 		result.mask = (vertical | horizontal) ^ rook_bit;
-		result.count = count_bits_cashed(result.mask);
+		result.count = count_bits_opt_cashed(result.mask);
 		return result;
 	};
 
@@ -159,7 +173,7 @@ public:
 			anti_diag << ((row - rev_col) * 8);		
 		
 		result.mask = (main_diag | anti_diag) ^ bishop_bit;		
-		result.count = count_bits_cashed(result.mask);
+		result.count = count_bits_opt_cashed(result.mask);
 		return result;
 	};
 
@@ -174,7 +188,7 @@ public:
 		
 		moves result;
 		result.mask = rook_mask | bishop_mask;
-		result.count = count_bits_cashed(result.mask);
+		result.count = count_bits_opt_cashed(result.mask);
 		return result;
 	};
 
