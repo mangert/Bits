@@ -1,4 +1,4 @@
-#pragma once
+п»ї#pragma once
 #include <iostream>
 #include <vector>
 #include <numeric>
@@ -9,18 +9,18 @@
 #include <Bits.cpp>
 #include <random>
 
-//Класс для тестирования функций подсчета битов
+//РљР»Р°СЃСЃ РґР»СЏ С‚РµСЃС‚РёСЂРѕРІР°РЅРёСЏ С„СѓРЅРєС†РёР№ РїРѕРґСЃС‡РµС‚Р° Р±РёС‚РѕРІ
 class TestCounts {
 public:
-	//просто прогоняем все функции через массив случайных чисел и сравниваем, чтобы результат был одинаковый
+	//РїСЂРѕСЃС‚Рѕ РїСЂРѕРіРѕРЅСЏРµРј РІСЃРµ С„СѓРЅРєС†РёРё С‡РµСЂРµР· РјР°СЃСЃРёРІ СЃР»СѓС‡Р°Р№РЅС‹С… С‡РёСЃРµР» Рё СЃСЂР°РІРЅРёРІР°РµРј, С‡С‚РѕР±С‹ СЂРµР·СѓР»СЊС‚Р°С‚ Р±С‹Р» РѕРґРёРЅР°РєРѕРІС‹Р№
 	void static random_test(uint64_t num) {
 		bool ok = true;		
 		std::random_device rd;
-		std::mt19937_64 gen(rd());  // 64-битная версия
+		std::mt19937_64 gen(rd());  // 64-Р±РёС‚РЅР°СЏ РІРµСЂСЃРёСЏ
 		std::uniform_int_distribution<uint64_t> distrib;
 
 		for (uint64_t i = 0; i < num; ++i) {
-			if (!(i % 10000)) {//чтобы не слишком часто
+			if (!(i % 10000)) {//С‡С‚РѕР±С‹ РЅРµ СЃР»РёС€РєРѕРј С‡Р°СЃС‚Рѕ
 				int percent = (i * 100) / num;
 				std::cout << "\r[" << std::string(percent / 2, '=')
 					<< std::string(50 - percent / 2, ' ') << "] "
@@ -43,17 +43,17 @@ public:
 		std::cout << "\n-----------------------------------------\n\n";
 	};
 
-	//особые случаи
+	//РѕСЃРѕР±С‹Рµ СЃР»СѓС‡Р°Рё
 	void static edge_test() {
 		const uint64_t test_numbers[] = {
-			0,                    // все нули
-			UINT64_MAX,           // все единицы
-			0xAAAAAAAAAAAAAAAA,   // чередование 1010...
-			0x5555555555555555,   // чередование 0101...
-			0xFF00FF00FF00FF00,   // байтовые паттерны
+			0,                    // РІСЃРµ РЅСѓР»Рё
+			UINT64_MAX,           // РІСЃРµ РµРґРёРЅРёС†С‹
+			0xAAAAAAAAAAAAAAAA,   // С‡РµСЂРµРґРѕРІР°РЅРёРµ 1010...
+			0x5555555555555555,   // С‡РµСЂРµРґРѕРІР°РЅРёРµ 0101...
+			0xFF00FF00FF00FF00,   // Р±Р°Р№С‚РѕРІС‹Рµ РїР°С‚С‚РµСЂРЅС‹
 			0x00FF00FF00FF00FF,
-			0x0000000000000001,   // одна единица
-			0x8000000000000000,   // одна единица в старшем бите
+			0x0000000000000001,   // РѕРґРЅР° РµРґРёРЅРёС†Р°
+			0x8000000000000000,   // РѕРґРЅР° РµРґРёРЅРёС†Р° РІ СЃС‚Р°СЂС€РµРј Р±РёС‚Рµ
 		};
 		bool ok = true;
 		srand(time(nullptr));
@@ -73,14 +73,14 @@ public:
 		std::cout << "\n-----------------------------------------\n\n";
 	}
 
-	//замеры времени
+	//Р·Р°РјРµСЂС‹ РІСЂРµРјРµРЅРё
 	uint64_t static time_test(uint64_t num, std::function<uint64_t(uint64_t)> func) {
 		std::random_device rd;
-		std::mt19937_64 gen(123456789);  // 64-битная версия!
+		std::mt19937_64 gen(123456789);  // 64-Р±РёС‚РЅР°СЏ РІРµСЂСЃРёСЏ!
 		std::uniform_int_distribution<uint64_t> distrib;
 		
 		bool ok = true;
-		//srand(123456789); //чтобы тесты запускались на одинаковой последовательности
+		//srand(123456789); //С‡С‚РѕР±С‹ С‚РµСЃС‚С‹ Р·Р°РїСѓСЃРєР°Р»РёСЃСЊ РЅР° РѕРґРёРЅР°РєРѕРІРѕР№ РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚Рё
 		auto start = std::chrono::high_resolution_clock::now();
 		
 		for (uint64_t i = 0; i < num; ++i) {
@@ -89,27 +89,27 @@ public:
 				func(number);
 			}
 			catch (const std::exception& e) {
-				std::cout << "Итерация: " << i << ", число " << number << ", ошибка: " << e.what();
+				std::cout << "РС‚РµСЂР°С†РёСЏ: " << i << ", С‡РёСЃР»Рѕ " << number << ", РѕС€РёР±РєР°: " << e.what();
 			}
 		};
 		auto end = std::chrono::high_resolution_clock::now();
 		auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
 
-		if (ok) std::cout << "Test ok, затрачено времени " << duration << "us\n";
+		if (ok) std::cout << "Test ok, Р·Р°С‚СЂР°С‡РµРЅРѕ РІСЂРµРјРµРЅРё " << duration << "us\n";
 		else std::cout << "Test failed " << duration << "us\n";
 		std::cout << "\n-----------------------------------------\n\n";
 		return duration;
 	};	
 };
 
-//Класс для тестирования решения шахматных задачек
+//РљР»Р°СЃСЃ РґР»СЏ С‚РµСЃС‚РёСЂРѕРІР°РЅРёСЏ СЂРµС€РµРЅРёСЏ С€Р°С…РјР°С‚РЅС‹С… Р·Р°РґР°С‡РµРє
 class TestBitboard {
 
 public:
 	TestBitboard(std::function<Bits::moves(uint64_t)> run, std::string folder) : 
-		test_run(run), folder(folder) {} // в конструкторе передаем тестируемую функцию и папку с тестами
+		test_run(run), folder(folder) {} // РІ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂРµ РїРµСЂРµРґР°РµРј С‚РµСЃС‚РёСЂСѓРµРјСѓСЋ С„СѓРЅРєС†РёСЋ Рё РїР°РїРєСѓ СЃ С‚РµСЃС‚Р°РјРё
 
-	//основная функция тестирования
+	//РѕСЃРЅРѕРІРЅР°СЏ С„СѓРЅРєС†РёСЏ С‚РµСЃС‚РёСЂРѕРІР°РЅРёСЏ
 	void run()
 	{
 		namespace fs = std::filesystem;
@@ -130,8 +130,8 @@ public:
 		}
 		std::cout << "\n------------ End test -----------------\n\n";
 	}
-private: //служебные функции
-	//собственно запуск функции
+private: //СЃР»СѓР¶РµР±РЅС‹Рµ С„СѓРЅРєС†РёРё
+	//СЃРѕР±СЃС‚РІРµРЅРЅРѕ Р·Р°РїСѓСЃРє С„СѓРЅРєС†РёРё
 	void _run(int iter, std::string input, std::vector<std::string> expected) {
 		Bits::moves result;
 		uint64_t start_pos = std::stoull(input);
@@ -139,35 +139,35 @@ private: //служебные функции
 		uint64_t move_mask = std::stoull(expected[1]);
 
         std::ostringstream out_stream;
-        out_stream << "Тест " << std::setw(2) << std::setfill('0') << iter;        
+        out_stream << "РўРµСЃС‚ " << std::setw(2) << std::setfill('0') << iter;        
 
         try {
-            result = test_run(start_pos); //запускаем нашу тестируемую функцию			
-            // Проверяем результат
+            result = test_run(start_pos); //Р·Р°РїСѓСЃРєР°РµРј РЅР°С€Сѓ С‚РµСЃС‚РёСЂСѓРµРјСѓСЋ С„СѓРЅРєС†РёСЋ			
+            // РџСЂРѕРІРµСЂСЏРµРј СЂРµР·СѓР»СЊС‚Р°С‚
 			if (result.count == count_moves && result.mask == move_mask) {
-				out_stream << " OK! start position: " << start_pos << "; число возможных ходов: " << count_moves
-					<< "; битовая маска ходов: " << move_mask << "\n";
+				out_stream << " OK! start position: " << start_pos << "; С‡РёСЃР»Рѕ РІРѕР·РјРѕР¶РЅС‹С… С…РѕРґРѕРІ: " << count_moves
+					<< "; Р±РёС‚РѕРІР°СЏ РјР°СЃРєР° С…РѕРґРѕРІ: " << move_mask << "\n";
 			}
 	        else {            
-				out_stream << " ОШИБКА: " << " результат: " << result.count <<
-					" ходов, ожидалось " << count_moves << "; битовая маска: " <<
-					result.mask << ", ожидалась " << move_mask << "\n";
+				out_stream << " РћРЁРР‘РљРђ: " << " СЂРµР·СѓР»СЊС‚Р°С‚: " << result.count <<
+					" С…РѕРґРѕРІ, РѕР¶РёРґР°Р»РѕСЃСЊ " << count_moves << "; Р±РёС‚РѕРІР°СЏ РјР°СЃРєР°: " <<
+					result.mask << ", РѕР¶РёРґР°Р»Р°СЃСЊ " << move_mask << "\n";
 			};
         }
         catch (const std::exception& e) {
-            out_stream << " НЕ ВЫПОЛНЕН: " << start_pos << " ошибка: " << e.what();
+            out_stream << " РќР• Р’Р«РџРћР›РќР•Рќ: " << start_pos << " РѕС€РёР±РєР°: " << e.what();
         }
 
         std::cout << out_stream.str() << std::endl;
 	}
 
-	//получение пути к файлу с тестами
+	//РїРѕР»СѓС‡РµРЅРёРµ РїСѓС‚Рё Рє С„Р°Р№Р»Сѓ СЃ С‚РµСЃС‚Р°РјРё
 	std::string getTestPath(int testNum, const std::string& extension) {
 		return std::string(TEST_DIR) + "/" + folder + "/test." +
 			std::to_string(testNum) + "." + extension;
 	}
 
-	// Чтение одной строки (для файлов с позицией)
+	// Р§С‚РµРЅРёРµ РѕРґРЅРѕР№ СЃС‚СЂРѕРєРё (РґР»СЏ С„Р°Р№Р»РѕРІ СЃ РїРѕР·РёС†РёРµР№)
 	std::string readFile(const std::string& filename) {
 		std::ifstream file(filename);
 		if (!file.is_open()) throw std::runtime_error("Cannot open: " + filename);
@@ -177,7 +177,7 @@ private: //служебные функции
 		return content;
 	}
 
-	// Чтение всех строк (для результатов)
+	// Р§С‚РµРЅРёРµ РІСЃРµС… СЃС‚СЂРѕРє (РґР»СЏ СЂРµР·СѓР»СЊС‚Р°С‚РѕРІ)
 	std::vector<std::string> readFileLines(const std::string& filename) {
 		std::ifstream file(filename);
 		if (!file.is_open()) throw std::runtime_error("Cannot open: " + filename);
@@ -194,7 +194,7 @@ private: //служебные функции
 	}
 
 private:
-	//функция для тестирования
+	//С„СѓРЅРєС†РёСЏ РґР»СЏ С‚РµСЃС‚РёСЂРѕРІР°РЅРёСЏ
 	std::function<Bits::moves(uint64_t)> test_run;
 	std::string folder;
 };
