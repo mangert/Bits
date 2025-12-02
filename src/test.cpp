@@ -12,7 +12,7 @@
 //Класс для тестирования функций подсчета битов
 class TestCounts {
 public:
-	
+	//просто прогоняем все функции через массив случайных чисел и сравниваем, чтобы результат был одинаковый
 	void static random_test(uint64_t num) {
 		bool ok = true;		
 		std::random_device rd;
@@ -43,6 +43,7 @@ public:
 		std::cout << "\n-----------------------------------------\n\n";
 	};
 
+	//особые случаи
 	void static edge_test() {
 		const uint64_t test_numbers[] = {
 			0,                    // все нули
@@ -72,6 +73,7 @@ public:
 		std::cout << "\n-----------------------------------------\n\n";
 	}
 
+	//замеры времени
 	uint64_t static time_test(uint64_t num, std::function<uint64_t(uint64_t)> func) {
 		std::random_device rd;
 		std::mt19937_64 gen(123456789);  // 64-битная версия!
@@ -165,7 +167,7 @@ private: //служебные функции
 			std::to_string(testNum) + "." + extension;
 	}
 
-	// Чтение одной строки (для файлов с результатом)
+	// Чтение одной строки (для файлов с позицией)
 	std::string readFile(const std::string& filename) {
 		std::ifstream file(filename);
 		if (!file.is_open()) throw std::runtime_error("Cannot open: " + filename);
@@ -175,7 +177,7 @@ private: //служебные функции
 		return content;
 	}
 
-	// Чтение всех строк (для входных файлов)
+	// Чтение всех строк (для результатов)
 	std::vector<std::string> readFileLines(const std::string& filename) {
 		std::ifstream file(filename);
 		if (!file.is_open()) throw std::runtime_error("Cannot open: " + filename);
